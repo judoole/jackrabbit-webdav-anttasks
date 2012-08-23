@@ -1,6 +1,6 @@
 # Jackrabbit on Ant
 
-Ant tasks for Jackrabbit against webdab.
+Ant tasks for Jackrabbit against webdav.
 
 Could not find any so I created an ant task lib looking at [Sardine](https://code.google.com/p/sardine/) and [AntDav](http://code.google.com/p/antdav/) for copy-paste.
 
