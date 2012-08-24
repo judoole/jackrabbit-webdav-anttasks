@@ -10,20 +10,10 @@ Could not find any so I created an ant task lib looking at [Sardine](https://cod
     <typedef resource="com/github/judoole/webdav/jackrabbit-webdav-tasks.xml">
         <classpath>
             <pathelement location="${lib.loc}/jackrabbit-webdav-anttasks-0.1.jar"/>
-        </classpath>
-        <classpath>
             <pathelement location="${lib.loc}/commons-httpclient-3.1.jar"/>
-        </classpath>
-        <classpath>
             <pathelement location="${lib.loc}/commons-codec-1.4.jar"/>
-        </classpath>
-        <classpath>
             <pathelement location="${lib.loc}/jackrabbit-webdav-2.5.1.jar"/>
-        </classpath>
-        <classpath>
             <pathelement location="${lib.loc}/slf4j-api-1.6.4.jar"/>
-        </classpath>
-        <classpath>
             <pathelement location="${lib.loc}/commons-logging-1.1.1.jar"/>
         </classpath>
     </typedef>
