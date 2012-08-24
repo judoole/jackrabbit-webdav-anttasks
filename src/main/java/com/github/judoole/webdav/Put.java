@@ -21,21 +21,10 @@ public class Put extends Command {
     Vector<FileSet> fileSets = new Vector<FileSet>();
     private HttpClient client;
 
-    /**
-     * Set the path of the webdav to which the files are to be uploaded to <br>
-     * Example: http://localhost:8080/repository/default
-     *
-     * @param url
-     */
     public void setUrl(String url) {
         this.url = url;
     }
 
-    /**
-     * For providing a set of input files using Ant's fileset
-     *
-     * @param fileSet
-     */
     public void addFileSet(FileSet fileSet) {
         if (!fileSets.contains(fileSet)) {
             fileSets.add(fileSet);
@@ -46,42 +35,29 @@ public class Put extends Command {
         this.verbose = verbose;
     }
 
-    /**
-     * The execute function is called by Ant.
-     */
     public void execute() {
-        try {
-            DirectoryScanner ds;
-            client = new HttpClient();
-            Credentials creds = new UsernamePasswordCredentials(user, password);
-            client.getState().setCredentials(AuthScope.ANY, creds);
+        DirectoryScanner ds;
+        client = new HttpClient();
+        Credentials creds = new UsernamePasswordCredentials(user, password);
+        client.getState().setCredentials(AuthScope.ANY, creds);
 
-            for (FileSet fileset : fileSets) {
-                ds = fileset.getDirectoryScanner(getProject());
-                File dir = ds.getBasedir();
-                String[] filesInSet = ds.getIncludedFiles();
+        for (FileSet fileset : fileSets) {
+            ds = fileset.getDirectoryScanner(getProject());
+            File dir = ds.getBasedir();
+            String[] filesInSet = ds.getIncludedFiles();
 
-                for (String filename : filesInSet) {
-                    if (verbose)
-                        log("Processing " + filename);
+            for (String filename : filesInSet) {
+                if (verbose)
+                    log("Processing " + filename);
 
-                    File f = new File(dir, filename);
-                    createDirectory(filename, f.getName());
-                    uploadFile(f, filename);
-                }
+                File f = new File(dir, filename);
+                createDirectory(filename, f.getName());
+                uploadFile(f, filename);
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+
     }
 
-    /**
-     * Creates a directory on the webdav server
-     *
-     * @param path
-     * @param fileName
-     */
     private void createDirectory(String path, String fileName) {
         try {
             //Remove the filename at the end
@@ -108,7 +84,7 @@ public class Put extends Command {
             //Ignore as there is no directory to be created
         } catch (Exception e) {
             log("ERR creating " + path);
-            e.printStackTrace();
+            throw new RuntimeException("Error creating directory " + path, e);
         }
     }
 
@@ -130,14 +106,14 @@ public class Put extends Command {
 
             //201 Created => No issues
             if (method.getStatusCode() == 204)
-                log("File already exists " + f.getAbsolutePath());
+                log(String.format("%s overwritten with %s", uploadUrl, filename));
             else if (method.getStatusCode() != 201)
                 log("ERR " + " " + method.getStatusCode() + " " + method.getStatusText() + " " + f.getAbsolutePath());
             else
-                log("Transferred " + f.getAbsolutePath());
+                log(String.format("Transferred %s to %s", filename, uploadUrl));
         } catch (Exception e) {
             log("ERR " + f.getAbsolutePath());
-            e.printStackTrace();
+            throw new RuntimeException("Error transferring " + filename, e);
         }
     }
 }

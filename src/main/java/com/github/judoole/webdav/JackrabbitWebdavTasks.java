@@ -29,6 +29,12 @@ public class JackrabbitWebdavTasks extends Task {
         this.commands.add(get);
     }
 
+    public void addCopy(Copy copy) {
+        copy.setPassword(password);
+        copy.setUser(username);
+        this.commands.add(copy);
+    }
+
     @Override
     public void execute() {
         try {
@@ -36,6 +42,7 @@ public class JackrabbitWebdavTasks extends Task {
                 command.execute();
             }
         } catch (Exception e) {
+            log("Command did not execute properly!", e, 1);
             throw new BuildException(e);
         }
     }

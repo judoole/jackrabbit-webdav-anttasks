@@ -6,7 +6,7 @@ public abstract class Command extends ProjectComponent {
     protected String user;
     protected String password;
 
-    protected abstract void execute();
+    protected abstract void execute() throws Exception;
 
     /**
      * Set webdav user name
