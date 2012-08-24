@@ -8,6 +8,11 @@ public abstract class Command extends ProjectComponent {
 
     protected abstract void execute() throws Exception;
 
+    @Override
+    public void log(String msg) {
+        System.out.println(msg);
+    }
+
     /**
      * Set webdav user name
      *
