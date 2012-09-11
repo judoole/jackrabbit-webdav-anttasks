@@ -19,12 +19,8 @@ Could not find any so I created an ant task lib looking at [Sardine](https://cod
     </typedef>
     <target name="davthis">
         <jackrabbit username="superuser" password="hiddenPassword">
-            <delete url="http://url-to-file-to-delete"/>
-        </jackrabbit>
-        <jackrabbit username="superuser" password="hiddenPassword">
-            <get url="http://url-to-file-to-get"/>
-        </jackrabbit>
-        <jackrabbit username="superuser" password="hiddenPassword">
+            <delete url="http://url-to-file-to-delete"/>        
+            <get url="http://url-to-file-to-get"/>        
             <put url="http://url-to-file-to-folder">
                 <fileset dir="." includes="**/file-to-transfer-up.txt"/>
             </put>
