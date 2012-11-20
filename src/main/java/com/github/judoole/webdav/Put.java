@@ -20,6 +20,8 @@ public class Put extends Command {
     private boolean verbose = false;
     Vector<FileSet> fileSets = new Vector<FileSet>();
     private HttpClient client;
+    private File file;
+    private String filename;
 
     public void setUrl(String url) {
         this.url = url;
@@ -31,6 +33,14 @@ public class Put extends Command {
         }
     }
 
+    public void setFile(File f) {
+        this.file = f;
+    }
+
+    public void setFilename(String name) {
+        this.filename = name;
+    }
+
     public void setVerbose(boolean verbose) {
         this.verbose = verbose;
     }
@@ -40,6 +50,8 @@ public class Put extends Command {
         client = new HttpClient();
         Credentials creds = new UsernamePasswordCredentials(user, password);
         client.getState().setCredentials(AuthScope.ANY, creds);
+
+        if (file != null) uploadFile(file, filename == null ? file.getName() : filename);
 
         for (FileSet fileset : fileSets) {
             ds = fileset.getDirectoryScanner(getProject());
@@ -116,4 +128,5 @@ public class Put extends Command {
             throw new RuntimeException("Error transferring " + filename, e);
         }
     }
+
 }
