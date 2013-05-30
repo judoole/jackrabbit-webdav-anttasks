@@ -117,12 +117,14 @@ public class Put extends Command {
             client.executeMethod(method);
 
             //201 Created => No issues
-            if (method.getStatusCode() == 204)
+            if (method.getStatusCode() == 204) {
                 log(String.format("%s overwritten with %s", uploadUrl, filename));
-            else if (method.getStatusCode() != 201)
+            } else if (method.getStatusCode() != 201) {
                 log("ERR " + " " + method.getStatusCode() + " " + method.getStatusText() + " " + f.getAbsolutePath());
-            else
+                throw new RuntimeException(String.format("Could not upload %s to %s", filename, uploadUrl));
+            } else {
                 log(String.format("Transferred %s to %s", filename, uploadUrl));
+            }
         } catch (Exception e) {
             log("ERR " + f.getAbsolutePath());
             throw new RuntimeException("Error transferring " + filename, e);
