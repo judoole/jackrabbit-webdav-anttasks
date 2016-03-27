@@ -25,5 +25,12 @@ Could not find any so I created an ant task lib looking at [Sardine](https://cod
                 <fileset dir="." includes="**/file-to-transfer-up.txt"/>
             </put>
         </jackrabbit>
+        <jackrabbit username="superuser" passwordFile="pathAndNameOfFileWithPassword">
+            <delete url="http://url-to-file-to-delete"/>        
+            <get url="http://url-to-file-to-get-without-filename" file="remote-filename" fileOut="local-filename" />        
+            <put url="http://url-to-file-to-folder">
+                <fileset dir="." includes="**/file-to-transfer-up.txt"/>
+            </put>
+        </jackrabbit>
     </target>
 ```
